@@ -47,4 +47,20 @@ describe('User, Cheese and Board Models', () => {
         expect(findCheese[0].title).toBe('Blue Cheese')
     })
 
+    // Read
+    test('can fetch users', async () => {
+        const findUser = await User.findAll()
+        expect(findUser[0].name).toBe('Botirjon')
+    })
+
+    test('can fetch board', async () => {
+        const findBoard = await Board.findAll()
+        expect(findBoard[0].type).toBe('cheese board')
+    })
+
+    test('can fetch cheese', async () => {
+        const findCheese = await Cheese.findAll()
+        expect(findCheese[0].title).toBe('Blue Cheese')
+    })
+
 })
