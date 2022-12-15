@@ -98,4 +98,18 @@ describe('User, Cheese and Board Models', () => {
         let getBoards = await foundUser[0].getBoards()
         expect(getBoards.length).toBe(2)
     })
+
+    //  Many-to-many
+    test('Board and Cheese models can have a Many-to-Many relationship', async () => {
+        await Board.create({ type: 'old cheese', description: 'old-aged cheese', rating: '2', })
+        let americanCheese = await Cheese.create({ title: 'american', description: 'American is a creamy, smooth cheese made from blending natural cheeses. It comes in several forms including individually wrapped cheese slices, small pre-sliced blocks and large blocks. It melts well.' })
+        let asiagoCheese = await Cheese.create({ title: 'Asiago', description: 'Asiago, a nutty-flavored cheese, comes in two forms: fresh and mature. The fresh has an off-white color and is smoother and milder, while mature Asiago is yellowish and somewhat crumbly. Depending on its age, Asiago can be grated, melted or sliced.' })
+        let findBoard = await Board.findAll()
+        await findBoard[0].addCheese(americanCheese)
+        await findBoard[0].addCheese(asiagoCheese)
+
+        let findBobsBoard = await findBoard[0].getCheeses()
+        expect(findBobsBoard.length).toBe(2)
+    })
+
 })
