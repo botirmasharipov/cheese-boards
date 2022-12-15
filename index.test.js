@@ -112,4 +112,29 @@ describe('User, Cheese and Board Models', () => {
         expect(findBobsBoard.length).toBe(2)
     })
 
+    // Eager Loading
+    test('Eager Loading', async () => {
+        await Board.findAll()
+        let cheese = await Cheese.findAll()
+
+        let frenchBoard = await Board.create({
+            type: 'French Cheese Board',
+            description: 'French Cheese Board is an ambassador of the French cheese experience and also serves as a platform for conversations and debates.',
+            rating: 10
+        })
+
+        await frenchBoard.addCheese(cheese[0])
+        await frenchBoard.addCheese(cheese[1])
+        await frenchBoard.addCheese(cheese[2])
+
+        let nicksBoard = await Board.findAll({
+            include: [
+                { model: Cheese, as: 'cheeses' }
+            ]
+        })
+
+        expect(nicksBoard[4].type).toBe('French Cheese Board')
+    })
+
+
 })
