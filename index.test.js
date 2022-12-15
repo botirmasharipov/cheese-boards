@@ -63,4 +63,25 @@ describe('User, Cheese and Board Models', () => {
         expect(findCheese[0].title).toBe('Blue Cheese')
     })
 
+    // Delete
+    test('can delete user', async () => {
+        await User.create({ name: 'don', email: 'don@gmail.com' })
+        const foundUser = await User.findAll()
+        const destroyUser = await foundUser[1].destroy()
+        expect(destroyUser.name).toEqual('don')
+    })
+
+    test('can delete board', async () => {
+        await Board.create({ type: 'old cheese', description: 'old-aged cheese', rating: '2', })
+        const foundBoard = await Board.findAll()
+        const destroyBoard = await foundBoard[1].destroy()
+        expect(destroyBoard.type).toEqual('old cheese')
+    })
+
+    test('can delete cheese', async () => {
+        await Cheese.create({ title: 'Burrata', description: 'Burrata is a fresh cheese featuring a thin layer of cheese with a mixture of stringy curd and fresh cream on the inside. It has a rich flavor and goes well with salads, crusty bread and Italian dishes.' })
+        const foundCheese = await Cheese.findAll()
+        const destroyCheese = await foundCheese[1].destroy()
+        expect(destroyCheese.title).toEqual('Burrata')
+    })
 })
