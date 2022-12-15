@@ -84,4 +84,18 @@ describe('User, Cheese and Board Models', () => {
         const destroyCheese = await foundCheese[1].destroy()
         expect(destroyCheese.title).toEqual('Burrata')
     })
+
+    //  One-to-Many - Multiple Boards can be added to a User.
+    test('User and Board models can have One-to-Many relationship', async () => {
+        const bobsBoard = await Board.create({ type: 'old cheese', description: 'old-aged cheese', rating: '2', })
+        const johnsBoard = await Board.create({ type: 'chunks of parmesan', description: 'firm cheese', rating: '5', })
+
+        let foundUser = await User.findAll()
+
+        await foundUser[0].addBoard(bobsBoard)
+        await foundUser[0].addBoard(johnsBoard)
+
+        let getBoards = await foundUser[0].getBoards()
+        expect(getBoards.length).toBe(2)
+    })
 })
